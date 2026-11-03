@@ -1,0 +1,70 @@
+
+### Health check
+GET http://localhost:3000/health/database
+
+### Create a draft draw
+POST http://localhost:3000/api/admin/draws
+Content-Type: application/json
+x-admin-api-secret: {{$dotenv ADMIN_API_SECRET}}
+
+{
+  "drawCode": "TEST-DRAW-001",
+  "drawDateText": "Test date - replace with official date",
+  "notes": "Development test only. Not an official draw."
+}
+
+### List draws
+GET http://localhost:3000/api/admin/draws
+x-admin-api-secret: {{$dotenv ADMIN_API_SECRET}}
+
+### 4. Add a test prize to the draft draw
+# Replace TEST-DRAW-001 with the drawCode of your saved test draw.
+# First find the draw's actual id in the response to request 3.
+
+POST http://localhost:3000/api/admin/draws/cmvtg291h0000j0u46phbnhbo/prizes
+Content-Type: application/json
+x-admin-api-secret: {{$dotenv ADMIN_API_SECRET}}
+
+{
+  "prizeName": "TEST PRIZE",
+  "winningNumber": "000-0000000",
+  "prizeAmount": "100.00",
+  "currency": "ETB",
+  "sortOrder": 1
+}
+### List all saved draws
+GET http://localhost:3000/api/admin/draws
+x-admin-api-secret: {{$dotenv ADMIN_API_SECRET}}
+
+
+### 5. Admin login
+POST http://localhost:3000/api/admin/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "Admin@2124"
+}
+
+### 6. Check admin session
+GET http://localhost:3000/api/admin/auth/me
+
+### 7. Admin logout
+POST http://localhost:3000/api/admin/auth/logout
+### Check API health
+GET http://localhost:3000/health
+
+### Check admin session
+GET http://localhost:3000/api/admin/auth/me
+
+### List lottery draws
+GET http://localhost:3000/api/admin/draws
+x-admin-api-secret: 0ae51951d8bb4f8a202a6993f601da6c6edafc5fb006253aa0992075cda2625a
+
+### Verify a draw
+POST http://localhost:3000/api/admin/draws/cmvv4ehin0000m8u4cj2fcq85/verify
+Content-Type: application/json
+
+{
+  "confirmedOfficialSource": true
+}
